@@ -40,16 +40,17 @@ const getRoomsByPrice = async (req, res) => {
 }
 
 const getRoomById = async (req, res) => {
-  const valid = mongoose.Types.ObjectId.isValid(req.params.id);
-if(valid){
+  
+  const roomId = req.params.id;
+  
   let room;
   try {
-    room = await Room.findById({id : valid })
-    res.status(200).json(room)
+    room = await Room.findById(roomId)
+    res.status(200).json({ room : room.toObject({ getters: true })});
   } catch(error){
     console.log(error)
   }
-}
+
   // const roomId = req.params.id;
  
 }

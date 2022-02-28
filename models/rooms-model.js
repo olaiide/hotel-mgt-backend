@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const uniqueValidator = require('mongoose-unique-validator')
 const Schema = mongoose.Schema;
 
 const roomSchema = new Schema({
@@ -18,8 +18,11 @@ const roomSchema = new Schema({
   description : {
       type : String,
       required : true,
-  }
+  },
+
 });
+
+roomSchema.plugin(uniqueValidator)
 
 module.exports = mongoose.model('Room', roomSchema)
 
