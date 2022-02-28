@@ -39,8 +39,19 @@ const getRoomsByPrice = async (req, res) => {
   try {
     rooms = await Room.find({ price: roomPriceId });
     res.status(200).json(rooms);
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    const error = new HttpError(
+      "Something went wrong, could not get rooms.",
+      500
+    );
+    return next(error);
+  }
+  if (!rooms) {
+    const error = new HttpError(
+      "Could not find a room for the provided id.",
+      500
+    );
+    return next(error);
   }
 };
 
@@ -50,6 +61,7 @@ const getRoomById = async (req, res, next) => {
   let room;
   try {
     room = await Room.findById(roomId);
+    
   } catch (err) {
     const error = new HttpError(
       "Something went wrong, could not find a place.",
@@ -65,6 +77,7 @@ const getRoomById = async (req, res, next) => {
     );
     return next(error);
   }
+  res.status(200).json({ room : room.toObject({getters : true})})
 };
 exports.createRoom = createRoom;
 exports.getRooms = getRooms;
