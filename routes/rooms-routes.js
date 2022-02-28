@@ -1,5 +1,5 @@
 const express = require("express");
-const { check } = require("express-validator/check");
+const { check } = require("express-validator");
 const roomController = require("../controllers/rooms-controllers");
 
 const router = express.Router();
@@ -7,7 +7,7 @@ const router = express.Router();
 router.post(
   "/room",
   [
-    check("price", "Price is required").isNumeric(),
+    check("price", "Price should be a number").isNumeric(),
     check("available", "Availability is required").isBoolean(),
     check('description', 'Description is required').not().isEmpty(),
     check('type', 'Type is required').not().isEmpty()
