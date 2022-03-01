@@ -36,4 +36,28 @@ const signup = async (req, res, next) => {
   }
 };
 
+const login = async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+  const { email, password } = req.body;
+  let identifiedUser;
+  try {
+    identifiedUser = await User.findOne({ email: email });
+  } catch (err) {
+    const error = new HttpError("Login failed, Something went wrong.", 500);
+    return next(error);
+  }
+  if (!identifiedUser || identifiedUser.password !== password) {
+    res.status(200).json({ msg: "Invalid details" });
+  }
+  res
+    .status(200)
+    .json({
+      message: "Logged in!",
+      user: identifiedUser.toObject({ getters: true }),
+    });
+};
 exports.signup = signup;
+exports.login = login;
