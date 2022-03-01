@@ -64,7 +64,7 @@ const getRoomById = async (req, res, next) => {
     
   } catch (err) {
     const error = new HttpError(
-      "Something went wrong, could not find a place.",
+      "Something went wrong, could not find a room.",
       500
     );
     return next(error);
