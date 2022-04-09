@@ -79,7 +79,25 @@ const getRoomById = async (req, res, next) => {
   }
   res.status(200).json({ room : room.toObject({getters : true})})
 };
+
+const bookRoom = async (req, res, next) => {
+  const roomId = req.params.id;
+  let room;
+  try {
+    room = await Room.findById(roomId)
+  }catch (err){
+    console.log(err)
+  }
+  room.available = false;
+  try{
+    await room.save()
+  }catch (err){
+    console.log(err)
+  }
+  res.status(200).json({ room : room.toObject({getters : true})})
+}
 exports.createRoom = createRoom;
+exports.bookRoom = bookRoom;
 exports.getRooms = getRooms;
 exports.getRoomsByPrice = getRoomsByPrice;
 exports.getRoomById = getRoomById;

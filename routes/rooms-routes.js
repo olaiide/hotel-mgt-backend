@@ -9,11 +9,12 @@ router.post(
   [
     check("price", "Price should be a number").isNumeric(),
     check("available", "Availability is required").isBoolean(),
-    check('description', 'Description is required').not().isEmpty(),
-    check('type', 'Type is required').not().isEmpty()
+    check("description", "Description is required").not().isEmpty(),
+    check("type", "Type is required").not().isEmpty(),
   ],
   roomController.createRoom
 );
+router.patch("/room/:id", roomController.bookRoom);
 router.get("/rooms", roomController.getRooms);
 router.get("/room/:id", roomController.getRoomById);
 router.get("/rooms/price/:id", roomController.getRoomsByPrice);
